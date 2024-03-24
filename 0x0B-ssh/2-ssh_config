@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# change the configuration of ssh_config
+PasswordAuthentication no
+IdentityFile ~/.ssh/school
