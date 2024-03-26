@@ -5,7 +5,7 @@ echo -e "Update and install Nginx\n"
 sudo apt-get update -y -qq && sudo apt-get install nginx -y
 
 echo -e "\nStart nginx service and all firewall\n"
-sudo servivce nginx start
+sudo service nginx start
 sudo ufw allow 'Nginx HTTP'
 
 echo -e "\nset the user ownership to website files\n"
