@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Configure Nginx server to have a custom 404 page
+# The 404 string must be "Ceci n'est pas une page"
+echo -e "Update and install Nginx\n"
+sudo apt-get update -y -qq && sudo apt-get install nginx -y
+
+echo -e "\nStart nginx service and all firewall\n"
+sudo servivce nginx start
+sudo ufw allow 'Nginx HTTP'
+
+echo -e "\nset the user ownership to website files\n"
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# Backupu default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Creating new index
+echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
+
+# Making /redirect_me to https://www.youtube.com/watch?v=QH2-TGUlwu4
+sudo sed -i '24i\	rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+
+# Making 404 page
+echo "Ceci n'est pas une page" > /var/www/html/error_404.html
+sudo sed -i '25i\	error_page 404 /error_404.html;' /etc/nginx/sites-available/default
+
+# Restarting nginx
+sudo service nginx restart
+
+echo -e "\nCompleted."
