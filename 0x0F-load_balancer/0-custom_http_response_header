@@ -1,26 +1,21 @@
 #!/usr/bin/env bash
-# Configuring web-02 to be identical to web-01
-sudo apt-get update -y -qq && sudo apt-get install nginx -y
+# Customizing a 404-error_page
 
-sudo service nginx start
-sudo ufw allow 'Nginx HTTP'
+sudo apt-get update
+sudo apt-get install -y nginx
 
-sudo chown -R "$USER":"$USER" /var/www/html
-sudo chmod -R 755 /var/www
+echo "Hello World!" | sudo tee /var/www/html/index.html
 
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/besthor permanent;"
+sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 
-echo -e "Hello World!" | dd status=none of=/var/www/html/index.nginx-debian.html
-echo Ceci n\'est pas une page > /var/www/html/custom_404.html
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 
-# Configuring redirection
-sudo sed -i '/^\sserver_name.*/a \        rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
 
-# Custom error page
-sudo sed -i '/^\slocation.*/i \        error_page 404 /error_404.html;' /etc/nginx/sites-available/default
+sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
 
-# Configuring response header
-sudo sed -i '/^\slocation.*/i \        add_header X-Served-By $hostname;' /etc/nginx/sites-available/default
+sudo nginx -t
 
-# Running the server
-sudo service nginx start
+sudo service nginx restart
