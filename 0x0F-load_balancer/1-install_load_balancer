@@ -17,7 +17,7 @@ frontend NafisaKaruri-frontend
 backend NafisaKaruri-backend
      balance roundrobin
      server 522879-web-01 54.84.48.73:80 check
-     server 522879-web-02 54.197.73.171:80 check
+     server 522879-web-02 100.26.173.120:80 check
 " | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
 echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
