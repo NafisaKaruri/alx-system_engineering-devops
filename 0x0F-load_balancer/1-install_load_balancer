@@ -5,14 +5,22 @@ sudo apt-get -y update
 sudo apt-get install -y haproxy
 
 echo "
-   bind *:80
-   mode http
-   balance roundrobin
-   server 522879-web-01 54.84.48.73:80 check
-   server 522879-web-02 54.197.73.171:80 check
-" | sudo tee -a /etc/haproxy/haproxy.cfg
+defaults
+     mode http
+     timeout client 15s
+     timeout connect 10s
+     timeout server 15s
+     timeout http-request 10s
+frontend NafisaKaruri-frontend
+     bind *:80
+     default_backend NafisaKaruri-backend
+backend NafisaKaruri-backend
+     balance roundrobin
+     server 522879-web-01 54.84.48.73:80 check
+     server 522879-web-02 54.197.73.171:80 check
+" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+echo "ENABLED=1" | sudo dd status=none of=/etc/default/haproxy
 
 sudo haproxy -c -f /etc/haproxy/haproxy.cfg
 
