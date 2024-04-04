@@ -7,11 +7,10 @@ subdomains=("www" "lb-01" "web-01" "web-02")
 
 digging() {
     # dig command
-    sub="$2"
-    INFO="$(dig "$sub.$domain" | grep -A1 'ANSWER SECTION:' | awk 'NR==2')"
+    INFO="$(dig "$2.$domain" | grep -A1 'ANSWER SECTION:' | awk 'NR==2')"
     IP=$(echo "$INFO" | awk '{print $5}')
     RECORD=$(echo "$INFO" | awk '{print $4}')
-    echo -e "The subdomain $sub is a $RECORD record and points to $IP"
+    echo -e "The subdomain $2 is a $RECORD record and points to $IP"
 }
 
 if [ $# -eq 1 ]; then
