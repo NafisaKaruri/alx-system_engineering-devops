@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# start nginx service
+
+service nginx restart
