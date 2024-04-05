@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Remove the default enabled sites, then configure it again to liten on port 80, finally restart nginx service
+rm /etc/nginx/sites-enabled/default
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
