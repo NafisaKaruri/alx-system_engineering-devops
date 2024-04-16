@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Remove the default enabled sites, then configure it again to liten on port 80, next restart nginx service, finally kill the first nginx process
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx start
+kill "$(pgrep 'nginx' | head -1)"
