@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-# I am whoever you say
-sudo -u "$1" whoami
