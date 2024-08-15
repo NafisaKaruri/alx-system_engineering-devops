@@ -6,11 +6,11 @@ Recursive function that queries the Reddit API
 import requests
 
 
-def recurse(subreddit, hot_list[]):
+def recurse(subreddit, hot_list=[], after=None):
     """
     Recursive function that queries the Reddit API
     Returns: list of titles of all hot articles
-             if non found returns None
+             if none found returns None
     """
     r = requests.get(
         "https://www.reddit.com/r/{}/hot.json".format(subreddit),
@@ -23,9 +23,11 @@ def recurse(subreddit, hot_list[]):
             d = child.get("data")
             title = d.get("title")
             hot_list.append(title)
+        
         after = r.json().get("data").get("after")
         if after is not None:
-            return recurse(subreddit, hot_list)
+            return recurse(subreddit, hot_list, after)
         return hot_list
     else:
         return None
+
