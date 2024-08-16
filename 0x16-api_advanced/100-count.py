@@ -28,7 +28,8 @@ def count_words(subreddit, word_list, count=None, after=None):
         children = data.get('children', [])
 
         if not children:
-            sorted_count = sorted(count.items(), key=lambda x: (-x[1], x[0]))
+            sorted_count = sorted(count.items(),
+                                  key=lambda x: (-x[1], x[0]))
             for word, cnt in sorted_count:
                 print("{}: {}".format(word, cnt))
             return
