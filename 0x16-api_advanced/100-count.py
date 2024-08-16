@@ -32,7 +32,7 @@ def count_words(subreddit, word_list, count=None, after=None):
                                   key=lambda x: (-x[1], x[0]))
             for word, cnt in sorted_count:
                 print("{}: {}".format(word, cnt))
-            return
+            return None
 
         for child in children:
             title = child['data'].get('title', '').lower()
