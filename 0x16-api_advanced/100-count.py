@@ -43,5 +43,6 @@ def count_words(subreddit, word_list, count=None, after=None):
 
         after = data.get('after')
         if after:
-            return count_words(subreddit, word_list, count, after)
+            return count_words(subreddit, word_list, count,
+                               after)
         return None
