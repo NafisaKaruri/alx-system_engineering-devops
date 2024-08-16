@@ -37,8 +37,8 @@ def count_words(subreddit, word_list, count=None, after=None):
         for child in children:
             title = child['data'].get('title', '').lower()
             for word in word_list:
-                pattern = r'\b{}\b'.format(re.escape(word.lower()))
-                matches = re.findall(pattern, title, re.IGNORECASE)
+                prn = r'\b{}\b'.format(re.escape(word.lower()))
+                matches = re.findall(prn, title, re.IGNORECASE)
                 count[word.lower()] += len(matches)
 
         after = data.get('after')
